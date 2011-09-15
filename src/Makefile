@@ -15,11 +15,11 @@ endif
 ifeq ($(uname_S),SunOS)
   CFLAGS?=-std=c99 -pedantic $(OPTIMIZATION) -Wall -W -D__EXTENSIONS__ -D_XPG6
   CCLINK?=-ldl -lnsl -lsocket -lm -lpthread
-  DEBUG?=-g -ggdb 
+  DEBUG?=-g -ggdb
 else
   CFLAGS?=-std=c99 -pedantic $(OPTIMIZATION) -Wall -W $(ARCH) $(PROF)
   CCLINK?=-lm -pthread
-  DEBUG?=-g -rdynamic -ggdb 
+  DEBUG?=-g -rdynamic -ggdb
 endif
 
 ifeq ($(USE_TCMALLOC),yes)
@@ -73,7 +73,7 @@ CLIPRGNAME = redis-cli
 CHECKDUMPPRGNAME = redis-check-dump
 CHECKAOFPRGNAME = redis-check-aof
 
-all: redis-benchmark redis-cli redis-check-dump redis-check-aof redis-server
+all: redis-benchmark redis-cli redis-check-dump redis-check-aof redis-dtrace redis-server
 	@echo ""
 	@echo "Hint: To run 'make test' is a good idea ;)"
 	@echo ""
@@ -166,6 +166,9 @@ dependencies:
 
 ../deps/jemalloc/lib/libjemalloc.a:
 	cd ../deps/jemalloc && ./configure $(JEMALLOC_CFLAGS) --with-jemalloc-prefix=je_ --enable-cc-silence && $(MAKE) lib/libjemalloc.a
+
+redis-dtrace:
+	dtrace -h -s redis_dtrace.d -o redis_dtrace.h
 
 redis-server: dependencies $(OBJ)
 	$(QUIET_LINK)$(CC) -o $(PRGNAME) $(CCOPT) $(DEBUG) $(OBJ) $(CCLINK) $(ALLOC_LINK) ../deps/lua/src/liblua.a
