@@ -1,6 +1,6 @@
 #!/usr/sbin/dtrace -CZs
 /*
- * Sample script to trace syscalls that happen in during a GET command.
+ * Sample script to trace syscalls that happen during a GET command.
  */
 redis$target:::get-entry
 {
