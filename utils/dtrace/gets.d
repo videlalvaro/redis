@@ -1,6 +1,7 @@
 #!/usr/sbin/dtrace -CZs
 /*
  * Sample script to trace syscalls that happen during a GET command.
+ * Run it like this: sudo dtrace -qs gets.d -p `pgrep redis`
  */
 redis$target:::get-entry
 {
