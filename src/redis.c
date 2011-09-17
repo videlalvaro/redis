@@ -1147,7 +1147,13 @@ int processCommand(redisClient *c) {
         queueMultiCommand(c);
         addReply(c,shared.queued);
     } else {
+        if(REDIS_COMMAND_ENTRY_ENABLED()) {
+            REDIS_COMMAND_ENTRY(c->cmd->name);
+        }
         call(c);
+        if(REDIS_COMMAND_RETURN_ENABLED()) {
+            REDIS_COMMAND_RETURN(c->cmd->name);
+        }
     }
     return REDIS_OK;
 }

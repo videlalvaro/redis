@@ -1,5 +1,5 @@
 provider redis {
-    probe get__entry(char *key);
+    probe command__entry(char *cmd);
 
-    probe get__return(char *key, int ret_val);
+    probe command__return(char *cmd);
 };
