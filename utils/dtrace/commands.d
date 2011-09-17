@@ -12,7 +12,7 @@ redis$target:::command-return
 /self->ts/
 {
   printf("%s %d", copyinstr(arg0), timestamp - self->ts);
-  @calls[copyinstr(arg0)] = count();
   @time[copyinstr(arg0)] = avg(timestamp - self->ts);
+  @timeq[copyinstr(arg0)] = quantize(timestamp - self->ts);
   self->ts = 0;
 }
