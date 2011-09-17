@@ -2,6 +2,7 @@
 /*
  * Sample script to calculate the avg time spent inside commands
  * Run it like this: sudo dtrace -qs commands.d -p `pgrep redis`
+ * Time output is in nanoseconds.
  */
 redis$target:::command-entry
 {
