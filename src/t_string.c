@@ -50,22 +50,16 @@ void setexCommand(redisClient *c) {
 }
 
 int getGenericCommand(redisClient *c) {
-    REDIS_GET_ENTRY(c->argv[1]->ptr);
-
     robj *o;
 
-    if ((o = lookupKeyReadOrReply(c,c->argv[1],shared.nullbulk)) == NULL) {
-        REDIS_GET_RETURN(c->argv[1]->ptr, REDIS_OK);
+    if ((o = lookupKeyReadOrReply(c,c->argv[1],shared.nullbulk)) == NULL)
         return REDIS_OK;
-    }
 
     if (o->type != REDIS_STRING) {
         addReply(c,shared.wrongtypeerr);
-        REDIS_GET_RETURN(c->argv[1]->ptr, REDIS_ERR);
         return REDIS_ERR;
     } else {
         addReplyBulk(c,o);
-        REDIS_GET_RETURN(c->argv[1]->ptr, REDIS_OK);
         return REDIS_OK;
     }
 }
